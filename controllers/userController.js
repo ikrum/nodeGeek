@@ -8,6 +8,11 @@ exports.getUsers=function(req,res,next){
 	
 }
 
+exports.getUser = function(req,res,next){
+
+	res.send("getting a specific user profile of user "+req.params.userid);
+}
+
 exports.addUser = function(req,res,next){
 
 	console.log(req.body);

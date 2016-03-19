@@ -34,7 +34,7 @@ app.use(bodyParser.urlencoded());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/api/users', apiRoutes);
+app.use('/api/', apiRoutes);
 
 
 
