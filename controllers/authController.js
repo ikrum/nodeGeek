@@ -29,6 +29,27 @@ exports.login = function(req, res, next){
 }
 
 
+exports.authenticate = function(req,res,next){
+
+  // validate authentication token
+  var token = req.headers.token || req.query.token;
+
+  if(!token){
+    return next('Authentication token required');
+  }
+  
+  verifyToken(token, function(err, decoded) {
+
+    if (err) {
+      if(err.name == 'TokenExpiredError') return next('Token expired');
+      return next('Invalid token');
+    }
+
+    req.user = decoded;
+    next();
+  }
+
+
 exports.verifyToken = verifyToken;
 exports.generateToken = generateToken;
 
