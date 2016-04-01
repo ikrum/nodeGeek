@@ -47,8 +47,8 @@ exports.authenticate = function(req,res,next){
 
     req.user = decoded;
     next();
-  }
-
+  });
+}
 
 exports.verifyToken = verifyToken;
 exports.generateToken = generateToken;
