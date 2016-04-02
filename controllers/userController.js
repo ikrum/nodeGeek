@@ -42,6 +42,10 @@ exports.addUser = function(req,res,next){
 			//var response = {message: "New user created", data:user};
 			//res.json(response)
 			res.json({message: "New user created", data:user});
+
+			var html=template.getHTML('confirmAccount.ejs',{userName: "Ikrum Hosain", link: "http://google.com"});
+			var mailData={to:userObj.email,subject:"Confirm account",message:html};
+			jobQueueController.queueEmail(mailData);
 		});
 	});
 }
