@@ -1,7 +1,5 @@
 "use strict";
 
-var config = require('../../config');
-
 var Gearman = require('abraxas');
 var gearmanClient = Gearman.Client.connect({ servers: ['127.0.0.1:4730'], defaultEncoding:'utf8' },function(){});
 var template = require('../../utils/template');
