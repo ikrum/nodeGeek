@@ -12,6 +12,7 @@ router.post('/', userController.addUser);
 
 //GET localhost:3000/api/users/456
 router.get('/:userid', userController.getUser);
+router.put('/:userid', userController.updateUser);
 
 
 module.exports = router;

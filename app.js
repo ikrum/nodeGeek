@@ -36,6 +36,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/api/', apiRoutes);
 
+//console.log(process.env);
+app.set("env", "production");
+console.log(app.get("env"));
 
 
 /// catch 404 and forwarding to error handler
@@ -45,17 +48,43 @@ app.use(function(req, res, next) {
     next(err);
 });
 
-/// error handlers
+/*****************************
+ *
+ *
+ *     ERROR HANDLERS
+ *
+ *
+ *****************************/
 
-// development error handler
-// will print stacktrace
 
-
-// production error handler
-// no stacktraces leaked to user
+// handling request errors
+// @err must contain a string, provided by next('some error message')
 app.use(function(err, req, res, next) {
-    res.status(err.status || 500).json({error: err.toString()});
+  if (typeof err === 'string'){
+
+    if(err.toLowerCase().indexOf("not found")>0)
+      res.status(404).json({status:404, error:err});
+    else
+      res.status(400).json({status:400, error:err});
+  }else{
+    next(err);
+  }
 });
 
+
+// Handle 404
+app.use(function(req, res) {
+  res.status(404).json({status:404,error:"Page not found"});
+});
+
+// Handle unexpected internal server error
+// @err should be an error object
+app.use(function(err, req, res, next) {
+  if (typeof err === 'string')
+    return;
+
+  console.log( "Internal Server Error!" );
+	console.log( err );
+});
 
 module.exports = app;

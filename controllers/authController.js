@@ -1,5 +1,6 @@
 var jwt = require('jsonwebtoken');
 var API_SECRET_KEY = "38f534975f20f375h0923h57023975fh2983f7";
+var User = require('../models/userModel');
 
 
 function verifyToken(token, callback){
@@ -13,19 +14,12 @@ function generateToken(data){
 }
 
 exports.login = function(req, res, next){
-	if(req.body.username != "node" || req.body.password != "geek")
-		return res.status(400).json({error:"Invalid username or password"});
+  User.findOne({email: req.body.email, password: req.body.password}, function(err, user){
 
-	var data = {
-		userid: 1,
-		email: "node@geek.com",
-		name: "Node Geek"
-	}
-	var tkn = generateToken(data);
-
-	res.status(200).json({message:"Login successful", token: tkn});
-
-
+    if(!user) return next("No user found");
+  	var tkn = generateToken(user);
+    res.status(200).json({message:"Login successful", data: user, token: tkn});
+  });
 }
 
 

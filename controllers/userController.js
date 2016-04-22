@@ -12,6 +12,18 @@ exports.getUsers=function(req,res,next){
 	
 }
 
+exports.updateUser = function(req,res,next){
+	User.findOne({userid: req.params.userid}, function(err, user){
+		if(!user) return next("No user found");
+		user.fname = req.body.fname;
+		user.lname = req.body.lname;
+		user.save(function(err){
+			if(err) return next(err);
+			res.json({message: "profile updated"});
+		});
+	})
+}
+
 exports.getUser = function(req,res,next){
 
 
@@ -28,6 +40,16 @@ exports.getUser = function(req,res,next){
 exports.addUser = function(req,res,next){
 	var userid, userObj;
 
+	var doesUserExists = function(callback){
+		User.findOne({email: req.body.email}, function(err, user){
+			user = user || {};
+			if(user.userid)
+				callback("Email already exists");
+			else
+				callback();
+		});
+	}
+
 	var getNewId = function(callback){
 		sequence.next(function(nextSeq){
 			userid = nextSeq;
@@ -38,9 +60,9 @@ exports.addUser = function(req,res,next){
 	var saveUser = function(callback){
 		userObj = {
 			userid: userid,
-			fname: req.body.firstName,
+			fname: req.body.fname,
 			lname: req.body.lname,
-			password: req.body.pwd,
+			password: req.body.password,
 			email: req.body.email
 		};
 
@@ -62,7 +84,7 @@ exports.addUser = function(req,res,next){
 	}
 
 	// run all tasks
-	async.series([getNewId, saveUser, sendNotification], function(err, result){
+	async.series([doesUserExists, getNewId, saveUser, sendNotification], function(err, result){
 		if(err) return next(err);
 	});
 
