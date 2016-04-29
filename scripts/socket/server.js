@@ -9,7 +9,7 @@ io.on('connection', function (socket) {
   });
 
   socket.on('status', function(data) {
-    socket.emit('status',{message: "Everything is fine", status: 'OK'});
+    socket.emit('status_reply',{message: "Everything is fine", status: 'OK'});
    });
 
   socket.on("new_message", function(data){
@@ -22,7 +22,7 @@ io.on('connection', function (socket) {
   });
 
   setInterval(function(){
-    io.emit("new_notification", {message: "New post added to your group"});
+    //io.emit("new_notification", {message: "New post added to your group"});
   }, 5000);
 });
 

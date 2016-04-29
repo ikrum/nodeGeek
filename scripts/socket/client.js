@@ -28,7 +28,7 @@ socket.on('connect', function(){
 });
 
 
-socket.on('status',function(data){
+socket.on('status_reply',function(data){
   console.log(serverPrefix+data.message);
   rl.prompt(true);
   

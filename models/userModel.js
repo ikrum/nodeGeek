@@ -27,5 +27,15 @@ var User = new Schema({
 	full_name: String
 })
 
+
+// validator middleware
+User.pre('validate', function(next) {
+	var doc = this;
+
+	// do some pre validation here
+  	
+  next();
+});
+
 // var user = new User(userObj)
 module.exports = mongoose.model('User',User);
