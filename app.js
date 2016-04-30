@@ -19,8 +19,6 @@ db.once('open', function () {
   console.log('MongoDb connected.');
 });
 
-
-zz
 var app = express();
 
 // view engine setup
