@@ -3,8 +3,7 @@ var Schema = mongoose.Schema;
 var User = new Schema({
 	userid:{
 		type : Number,
-		unique : true,
-		required: true
+		unique : true
 	},
 	fname:{ 
 		type: String, 
